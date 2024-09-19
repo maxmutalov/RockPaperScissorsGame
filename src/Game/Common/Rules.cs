@@ -16,12 +16,15 @@ public static class Rules
         "\t   table describes scheme where PC moves first and then user!).\n\n";
 
     public const String OddAndMoreThanOrEqualTo3 =
-        "> Count of entered words must be more or equal to 3 and must be odd.";
+        "> Count of entered words must be more or equal to 3 and must be odd!";
 
     public const String NullOrEmpty =
         "> You cannot play without words please enter the words to play!";
 
     public const String EqualItems =
-        "> You cannot enter two or more times the same word or sign.\n" +
+        "> You cannot enter two or more times the same word, letter or sign etc..\n" +
         "> Every item of entering sequence must be unique!";
+
+    public const String CountOfLettersMoreThanOrEqualTo3 =
+        "> Count of letters of each entering word must be not less than 3!";
 }

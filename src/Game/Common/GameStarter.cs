@@ -18,36 +18,43 @@ public static class GameStarter
                 if (SuggestPlayAgain())
                 {
                     PlayAgain();
+                    continue;
                 }
             }
+
 
             DisplayHMAC(_moves);
 
             DisplayVariants(_moves);
 
-            string usersMove = UserMoves(_moves);
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"Your move: {usersMove}\n");
-            Console.WriteLine($"Computers move: {_computersMove}");
-            Console.ResetColor();
-
-            Console.WriteLine("\n" + new String('-', 80) + "\n");
-
-            Console.WriteLine(Judge.DefineWinner(usersMove, _computersMove, _moves));
-
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\nHMAC key: {KeyGenerator.GeneratedKey}");
-            Console.ResetColor();
-
-            Console.WriteLine("\n" + new String('-', 80));
-
+            DisplayResult();
 
             if (SuggestPlayAgain())
-            {
                 PlayAgain();
-            }
         }
+    }
+
+    private static void DisplayResult()
+    {
+        string usersMove = UserMove(_moves);
+
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine($"Your move: {usersMove}\n");
+        Console.WriteLine($"Computers move: {_computersMove}");
+        Console.ResetColor();
+
+        Console.WriteLine("\n" + new String('-', 80) + "\n");
+        String winnerResult = Judge.DefineWinner(usersMove, _computersMove, _moves);
+
+        Console.ForegroundColor = ConsoleColor.DarkBlue;
+        Console.WriteLine($"{new String('*', 20)}   {winnerResult}   {new String('*', 20)}");
+        Console.ResetColor();
+
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"\nHMAC key: {KeyGenerator.GeneratedKey}");
+        Console.ResetColor();
+
+        Console.WriteLine("\n" + new String('-', 80));
     }
 
     private static Boolean SuggestPlayAgain()
@@ -91,7 +98,25 @@ public static class GameStarter
 
     private static Boolean CheckForErrors(String[] sequence)
     {
-        if (CheckIfThereAreEqualItems(sequence))
+        if (sequence == null || sequence.Contains(""))
+        {
+            Console.WriteLine("\n" + new String('-', 80) + "\n");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(Rules.NullOrEmpty);
+            Console.ResetColor();
+            Console.WriteLine("\n" + new String('-', 80));
+            return true;
+        }
+        else if (CheckTheLettersCount(sequence))
+        {
+            Console.WriteLine("\n" + new String('-', 80) + "\n");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(Rules.CountOfLettersMoreThanOrEqualTo3);
+            Console.ResetColor();
+            Console.WriteLine("\n" + new String('-', 80));
+            return true;
+        }
+        else if (CheckIfThereAreEqualItems(sequence))
         {
             Console.WriteLine("\n" + new String('-', 80) + "\n");
             Console.ForegroundColor = ConsoleColor.Red;
@@ -110,21 +135,27 @@ public static class GameStarter
             Console.WriteLine("\n" + new String('-', 80));
             return true;
         }
-        else if (sequence is null ||
-                 sequence == Array.Empty<String>())
-        {
-            Console.WriteLine("\n" + new String('-', 80) + "\n");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(Rules.NullOrEmpty);
-            Console.ResetColor();
-            Console.WriteLine("\n" + new String('-', 80));
-            return true;
-        }
 
         return false;
     }
 
-    private static String UserMoves(String[] sequence)
+    private static Boolean CheckTheLettersCount(String[] sequence)
+    {
+        Boolean result = false;
+
+        for (int i = 0; i < sequence.Length; i++)
+        {
+            if (sequence[i].Length < 3)
+            {
+                result = true;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    private static String UserMove(String[] sequence)
     {
         String usersMove;
         do
@@ -147,7 +178,7 @@ public static class GameStarter
                     Console.WriteLine(Rules.RulesOfGame);
                     Helper.DisplayHelperTable(sequence);
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.Write("\nPress any key to continue...");
+                    Console.Write("\nPress any key to continue...\n");
                     Console.ReadKey();
                     Console.ResetColor();
                     Console.WriteLine("\n" + new String('-', 80) + "\n");

@@ -68,6 +68,7 @@ public static class Helper
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine(_stringBuilder.ToString());
         Console.ResetColor();
+        _stringBuilder.Clear();
     }
 
     public static Int32 CalculateHalfOfInputs(Int32 lengthOfInputs)
