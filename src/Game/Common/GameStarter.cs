@@ -22,7 +22,6 @@ public static class GameStarter
                 }
             }
 
-
             DisplayHMAC(_moves);
 
             DisplayVariants(_moves);

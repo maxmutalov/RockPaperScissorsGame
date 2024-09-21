@@ -20,9 +20,8 @@ public static class Judge
         var half = Helper.CalculateHalfOfInputs(inputs.Length);
 
         Boolean IsWinner = _usersMove > _computersMove && _usersMove <= _computersMove + half ||
-                 _computersMove > _usersMove && _usersMove >= 0 &&
-                 _usersMove <= (_computersMove + half) - inputs.Length;
-
+                           _computersMove > _usersMove && _usersMove >= 0 &&
+                           _usersMove <= (_computersMove + half) - inputs.Length;
 
         if (_usersMove == _computersMove)
         {
